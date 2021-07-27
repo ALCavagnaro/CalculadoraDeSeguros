@@ -111,7 +111,8 @@ function crearSeguro() {
             listaSeguros = seguros.find(seguroItem => seguroItem.id === parseInt(coberturaElegida.id));
             listaSeguros.cotizar = true;
             console.log(listaSeguros);
-            $('#formulario1').focus();
+            const guardarSeguro = JSON.stringify(coberturaElegida.id);
+            localStorage.setItem("Cotización", guardarSeguro);
 
             if (listaSeguros.cotizar = true) {
 
@@ -243,9 +244,7 @@ function crearFormularioDatosVehiculo () {
     $('#formulario2').append('<button id="botonCotizar" class="btn btn-light">Cotizar</button>')
 
 }
-
-
-const listaUsuario = [];       
+      
 
 class Usuario {                 //Este objeto sirve para recopilar los datos personales del usuario//
     
@@ -318,7 +317,6 @@ let validarApellido = false;
 let validarEmail = false;
 let validarFecha = false;
 
-
 let provincia = document.getElementById("Provincia");
 let localidad = document.getElementById("Localidad");
 let nombre = document.getElementById("Nombre");
@@ -326,7 +324,7 @@ let apellido = document.getElementById("Apellido");
 let email = document.getElementById("Email");
 let fecha = document.getElementById("Fecha");
 
-provincia.onchange = () => (validarProvincia = true);
+provincia.onchange = () => (validarProvincia = true); 
 localidad.onchange = () => (validarLocalidad = true);
 nombre.onchange = () => (validarNombre = true);
 apellido.onchange = () => (validarApellido = true);
@@ -335,6 +333,7 @@ fecha.onchange = () => (validarFecha = true);
 
 
 $('#botonSiguiente').on('click', validarDatosPersonales);
+ 
 
 function validarDatosPersonales () {
     
@@ -382,7 +381,21 @@ formulario1.addEventListener("submit", validarFormulario1);
 function validarFormulario1(evento) {
     evento.preventDefault ();
     console.log("Prevent Default formulario1");
- }
+
+    datosUsuario = [];
+            
+        let datos = document.getElementsByClassName("input__form1");
+        console.log(datos);
+             
+        for (dato of datos) {                        //iteración para separar el valor de cada dato ingresado
+                 datosUsuario.push(dato.value);
+                 console.log(dato.value);
+             }
+
+        const guardarDatosUsuario = JSON.stringify(datosUsuario);
+        localStorage.setItem ("Datos usuario", guardarDatosUsuario);
+
+}
 
 
 let validarAñoAuto = false;
@@ -414,6 +427,18 @@ formulario2.addEventListener("submit", validarFormulario2);
 function validarFormulario2(evento) {
     evento.preventDefault ();
     console.log("Prevent Default formulario2");
+    datosAuto = [];
+            
+        let datos = document.getElementsByClassName("input__form");
+        console.log(datos);
+             
+        for (dato of datos) {                        //iteración para separar el valor de cada dato ingresado
+                 datosAuto.push(dato.value);
+                 console.log(dato.value);
+             }
+
+        const guardarDatosAuto = JSON.stringify(datosAuto);
+        localStorage.setItem ("Datos auto", guardarDatosAuto);
  }
 
 
@@ -541,13 +566,6 @@ medioDePago = document.getElementById("Pago").value;
    cuota = subtotal/12
    descuentoCuota = cuota - (cuota * descuento)
    
-   const datosUsuario = new Usuario();         
-   listaUsuario.push(datosUsuario);
-   console.log(listaUsuario)
-
-   const lista2 = new auto ();
-   datosVehiculo.push(lista2);
-   console.log (datosVehiculo);
 
    if   (
             (validarAñoAuto != false) && 
