@@ -151,12 +151,109 @@ function crearFormularioDatosPersonales () {
 
     //$('#contenedorFormularios').append('<form method = "get" id = "formulario1"></form>');
 
-    let datoPersonal = ["Provincia", "Localidad", "Nombre", "Apellido", "Email", "Fecha de nacimiento"]   
-
+    let datoPersonal = ["Provincia", "Localidad", "Nombre", "Apellido", "Email", "Fecha de nacimiento"]
+    
     for (const datosPersonales of datoPersonal) {
-        $('#formulario1').append(`<div><label class = "label__form1 label-required" id="label${datosPersonales}">${datosPersonales}</label>
+        $('#formulario1').append(`<div id = "contenedor-etiquetas-form1${datosPersonales}"><label class = "label__form1 label-required" id="label${datosPersonales}">${datosPersonales}</label>
                                   <input class = "input__form1" id = ${datosPersonales} required></input></div>`);
+
     }
+
+        function provincia () {
+
+            $('#Provincia').remove();
+
+            const URLJSON = "datos.json";
+
+            $('#labelProvincia').append('<select class = "input__form1" id = "Provincia"></select>');
+            $('#Provincia').append(`<option>Seleccionar provincia</option>`);
+
+            $.getJSON(URLJSON, function (respuesta, estado) {
+
+                if(estado === "success"){
+                  let misDatos = respuesta;
+                  misDatos.sort(function(a,b) {
+                    if (a.nombre < b.nombre) {
+                        return -1;
+                    }
+                });
+          
+          
+                for (const dato of misDatos) {
+                  $("#Provincia").append(`<option value="${dato.nombre}" id= "${dato.id}">${dato.nombre}</option>`);
+          
+                }
+               
+          
+             }
+
+             $('#Provincia').change(() => {
+          
+                selection = document.getElementById("Provincia").value;
+                console.log(selection); 
+                idSelection = Number(document.getElementById("Provincia").selectedOptions[0].id);
+                
+                const URLGET = "https://apis.datos.gob.ar/georef/api/localidades?formato=json&max=5000"
+            
+                $.get(URLGET, function (respuesta, estado) {
+                  if(estado === "success"){
+                    console.log(estado);
+                    console.log(respuesta)
+                    
+                    console.log(idSelection);
+            
+                    let localidadesSet = new Set();
+            
+                    for (let element of respuesta.localidades){
+            
+                      if (selection === element.provincia.nombre) {
+                        
+                        localidadesSet.add(element.localidad_censal.nombre);
+              
+                      }
+                        
+                    }
+            
+                    let localidadesArray = [];
+            
+                    for (let element of localidadesSet) {
+            
+                      localidadesArray.push(element);
+            
+                      localidadesArray.sort(function(a,b){
+            
+                        if (a < b) {
+            
+                          return -1;
+            
+                        }
+            
+                      })             
+            
+                    }
+                    
+                    $('#Localidad').remove();
+                    $('#labelLocalidad').append('<select class = "input__form1" id = "Localidad">Seleccionar Localidad</select>');
+            
+                    for (element of localidadesArray) {
+            
+                      $('#Localidad').append(`<option>${element}</option>)`);
+            
+            
+                    }
+            
+                      
+                  }
+                    
+                
+               });
+            
+            
+              })
+          
+          });
+
+        }
 
         
     let fechaDeNacimiento = document.getElementById("Fecha");
@@ -187,10 +284,14 @@ function crearFormularioDatosPersonales () {
         $('#Estado-civil').append(`<option>${opcionesEcivil}</option>`)
     }
 
-    $('#formulario1').append('<button id="botonSiguiente" class="btn btn-light">Siguiente</button>')
+    $('#formulario1').append('<button id="botonSiguiente" class="btn btn-light">Siguiente</button>');
+
+    provincia();
 
 
 }
+
+
 
 
 function crearFormularioDatosVehiculo () {
