@@ -7,12 +7,11 @@ function main () {
     crearTitulo1();
     subtitulo1();
     crearSeguro();
-    subtitulo2 ();
-    subtitulo3 ();
     crearFormularioDatosPersonales();
     crearFormularioDatosVehiculo();
     botonCotizar();
-    //contenedorCotizacion();
+    datosFooter();
+    
 }
 
 function animacion () {
@@ -129,27 +128,13 @@ function crearSeguro() {
     
 }
 
-    
-function subtitulo2 () {
-
-        $('body').append('<h2 class="títuloSecundario" id="subtitulo2" style= "display:none">Completá tus datos personales</h2>');
-        
-}
-
-function subtitulo3 () {
-
-    $('body').append('<div class = "contenedor__subtitulo3"></div>');
-    $('.contenedor__subtitulo3').append('<h2 class="títuloSecundario" id="subtitulo3" style= "display:none">Completá los datos de tu vehículo</h2>');
-}
-
-
 function crearFormularioDatosPersonales () {
 
     $('body').append('<div class = "contenedor__form" id = "contenedorFormularios"></div>');
 
     $('#contenedorFormularios').append('<form method = "get" id = "formulario1" style="display:none"></form>');
 
-    //$('#contenedorFormularios').append('<form method = "get" id = "formulario1"></form>');
+    $('#formulario1').append('<h2 class="títuloSecundario" id="subtitulo2">Completá tus datos personales</h2>');
 
     let datoPersonal = ["Provincia", "Localidad", "Nombre", "Apellido", "Email", "Fecha de nacimiento"]
     
@@ -167,6 +152,9 @@ function crearFormularioDatosPersonales () {
 
             $('#labelProvincia').append('<select class = "input__form1" id = "Provincia"></select>');
             $('#Provincia').append(`<option>Seleccionar provincia</option>`);
+            $('#Localidad').remove();
+            $('#labelLocalidad').append('<select class = "input__form1" id = "Localidad"></select>');
+            $('#Localidad').append(`<option>Seleccionar localidad</option>`);
 
             $.getJSON(URLJSON, function (respuesta, estado) {
 
@@ -231,13 +219,11 @@ function crearFormularioDatosPersonales () {
                       })             
             
                     }
-                    
-                    $('#Localidad').remove();
-                    $('#labelLocalidad').append('<select class = "input__form1" id = "Localidad">Seleccionar Localidad</select>');
+                
             
                     for (element of localidadesArray) {
             
-                      $('#Localidad').append(`<option>${element}</option>)`);
+                      $('#Localidad').append(`<option>${element}</option>`);
             
             
                     }
@@ -292,13 +278,11 @@ function crearFormularioDatosPersonales () {
 }
 
 
-
-
 function crearFormularioDatosVehiculo () {
 
     $('#contenedorFormularios').append('<form method = get style = "display:none" id = "formulario2"></form>')
 
-    //$('#formulario2').append('<p class = "datosPersonales">Datos del vehículo</p>');
+    $('#formulario2').append('<h2 class="títuloSecundario" id="subtitulo3">Completá los datos de tu vehículo</h2>');
 
     let datoAuto = ["Año", "Marca", "Modelo"];                    
 
@@ -418,14 +402,15 @@ let validarApellido = false;
 let validarEmail = false;
 let validarFecha = false;
 
-let provincia = document.getElementById("Provincia");
+let provincia = document.getElementById("Provincia"); 
 let localidad = document.getElementById("Localidad");
 let nombre = document.getElementById("Nombre");
 let apellido = document.getElementById("Apellido");
 let email = document.getElementById("Email");
 let fecha = document.getElementById("Fecha");
 
-provincia.onchange = () => (validarProvincia = true); 
+provincia.onchange = () => (validarProvincia = true);
+provincia.onchange = () => (console.log("cambio")); 
 localidad.onchange = () => (validarLocalidad = true);
 nombre.onchange = () => (validarNombre = true);
 apellido.onchange = () => (validarApellido = true);
@@ -439,22 +424,27 @@ $('#botonSiguiente').on('click', validarDatosPersonales);
 function validarDatosPersonales () {
     
     const fechaActual = Date.now();
-    console.log(fechaActual);
     const hoy = new Date(fechaActual);
     fechaUsuario = Date.parse(fecha.value);
-    console.log(fechaUsuario);
     let resultadoFecha = (fechaActual - fechaUsuario)/31556952000; // cantidad de milisegundos en un año
-    console.log(resultadoFecha);
-
 
         if (
-            (validarProvincia != false) && 
+            //(validarProvincia != false) && 
             (validarLocalidad != false) && 
             (validarNombre != false) && 
             (validarApellido != false) && 
             (validarEmail != false) &&
             (validarFecha != false) &&
-            (resultadoFecha >= 18)
+            (resultadoFecha >= 18) &&
+            (provincia.value != "")&&
+            (provincia.value != "Seleccionar provincia")&&
+            (localidad.value != "")&&
+            (localidad.value != "Seleccionar localidad")&&
+            (nombre != "")&&
+            (apellido != "")&&
+            (email != "")&&
+            (fecha != "")
+            
         ) 
     
           { 
@@ -531,12 +521,11 @@ function validarFormulario2(evento) {
     datosAuto = [];
             
         let datos = document.getElementsByClassName("input__form");
-        console.log(datos);
              
         for (dato of datos) {                        //iteración para separar el valor de cada dato ingresado
                  datosAuto.push(dato.value);
                  console.log(dato.value);
-             }
+        }
 
         const guardarDatosAuto = JSON.stringify(datosAuto);
         localStorage.setItem ("Datos auto", guardarDatosAuto);
@@ -548,8 +537,6 @@ function botonCotizar () {
     $('#botonCotizar').on ("click", cotizar) 
     
     function cotizar () {
-
-   $('#formulario2').focus();
 
     nombreUsuario = document.getElementById("Nombre").value;
 
@@ -676,7 +663,14 @@ medioDePago = document.getElementById("Pago").value;
             (validarCombustibleAuto != false) &&
             (validarPago != false)&&
             (añoAuto >= 2000) &&
-            (añoAuto < 2021)
+            (añoAuto < 2021)&&
+            (añoAuto != "")&&
+            (marcaAuto != "")&&
+            (modeloAuto != "")&&
+            (uso != "Por favor, elija una opción")&&
+            (combustibleAuto != "Por favor, elija una opción")&&
+            (pago != "Por favor, elija una opción")
+
         ) 
 
         { console.log("prueba");
@@ -719,6 +713,15 @@ medioDePago = document.getElementById("Pago").value;
  
 }   
 
+function datosFooter () {
+    $('#emailFooter').change(() => {
 
+        console.log("hola"); 
+        const emailFooter = document.getElementById("emailFooter");
+        const guardarDatosFooter = JSON.stringify(emailFooter);
+        localStorage.setItem("email footer", guardarDatosFooter);
 
+    }) 
+}
 
+$('#emailFooter').onchange = () => (console.log("Hola"));
