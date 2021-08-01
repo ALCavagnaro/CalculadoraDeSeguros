@@ -10,7 +10,7 @@ function main () {
     crearFormularioDatosPersonales();
     crearFormularioDatosVehiculo();
     botonCotizar();
-
+    crearFormularioContacto();
     
 }
 
@@ -674,13 +674,11 @@ medioDePago = document.getElementById("Pago").value;
             (marcaAuto != "")&&
             (modeloAuto != "")&&
             (uso != "Por favor, elija una opción")&&
-            (combustibleAuto != "Por favor, elija una opción")
-
-        ) 
+            (combustibleAuto != "Por favor, elija una opción")&&
+            (pago != "Por favor, elija una opción")
+        )
 
         {
-            if (pago != "Por favor, elija una opción") { 
-
             
             $('body').append(`<div id="myModal" class="modal">
                               <div class="modal-content">
@@ -706,26 +704,17 @@ medioDePago = document.getElementById("Pago").value;
                     if (event.target == modal) {
                     modal.style.display = "none";
                     }
-
-            
-               }
-            } else (
-                 Swal.fire({
-                     title: 'Completar los datos obligatorios correctamente',
-                     showClass: {
-                       popup: 'animate__animated animate__fadeInDown'
-                     },
-                   })
-             )
+                  }
+             
         }
 
     else (
         Swal.fire({
             title: 'Completar los datos obligatorios correctamente',
             showClass: {
-              popup: 'animate__animated animate__fadeInDown'
+            popup: 'animate__animated animate__fadeInDown'
             },
-          })
+        })
     )              
             
   }
@@ -737,7 +726,7 @@ $(document).ready(function(){
  $(`#emailFooter`).change(function(){
     Swal.fire({
         icon: 'success',
-        title: 'Hemos recibido su correo',
+        title: 'Hemos recibido tu correo',
         showConfirmButton: false,
         timer: 1500
       })
@@ -749,3 +738,29 @@ $(document).ready(function(){
      $('#emailFooter').prop("disabled", true);
  }); 
 });
+
+function crearFormularioContacto () {
+
+    $(`body`).append('<div class = "contenedor__form" id = "contenedorFormulariosContacto"></div>');
+
+    $('#contenedorFormulariosContacto').append('<form method = "get" id = "formulario3"></form>');
+
+    $('#formulario3').append('<h2 class="títuloSecundario" id="">Completá el formulario para comunicarte con nosotros</h2>');
+
+    let datoPersonal = ["Nombre", "Apellido", "Email", "Mensaje"];
+    
+    for (const datosPersonales of datoPersonal) {
+        $('#formulario3').append(`<div id = "contenedor-etiquetas-form3${datosPersonales}"><label class = "label__form1 label-required" id="label${datosPersonales}">${datosPersonales}</label>
+                                  <input class = "input__form" id = "contacto${datosPersonales}" required></input></div>`);
+
+    }
+
+
+let emailUsuario = document.getElementById("contactoEmail");
+emailUsuario.setAttribute("type","email");
+
+
+$('#formulario3').append(`<button id="botonEnviar" class="btn btn-light">Enviar</button>`);
+
+
+}

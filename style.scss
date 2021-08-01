@@ -269,9 +269,8 @@ select {
    text-align: center;
 
    }
- 
 
- #botonCotizar {
+%boton {
 
    margin: 10% auto;
    width: fit-content;
@@ -279,19 +278,23 @@ select {
    border-radius: 8px;
    border: solid 1.5px black;
 
+}
+ 
+
+ #botonCotizar {
+
+   @extend %boton;
  }
 
  #botonSiguiente {
 
-  margin: 10% auto;
-  width: fit-content;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  border: solid 1.5px black;
+  @extend %boton;
 
  }
 
- 
+ #botonEnviar {
+   @extend %boton;
+ }
 
 
  .contenedor__form {
@@ -366,23 +369,6 @@ select {
    transform: scale(1.2);
 }
 
-.divMostrarCotizacion {
-
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
-   align-items: center;
-   width: 40rem;
-   margin-left: 30rem;
-   margin-right: 30rem;
-   margin:5%;
-   padding:5%;
-   line-height: 1.2;
-   border: 1px solid #e8ddda;
-   border-radius: 8px;
-   box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
-   flex-wrap: wrap;
-}
 
 .subcontenedor__seguros {
    display: flex;
@@ -449,26 +435,6 @@ select {
    
 }
 
-.boton {
-
-   background-color: rgb(42, 39, 230);
-   color: white;
-   border-radius: 5px;
-   cursor: pointer;
-   width: fit-content;
-   margin: auto;
-}
-
-.contenedor__boton--boton {
-
-   background-color: rgb(42, 39, 230);
-   color: white;
-   border-radius: 5px;
-   cursor: pointer;
-
-}
-
-
 .contenedor1 {
 
     width:70%;
@@ -531,7 +497,8 @@ select {
    cursor: pointer;
  }
 
-#Provincia, #Localidad, #Nombre, #Apellido, #Email, #Fecha, #Género, #Estado-civil, #Año, #Marca, #Modelo, #Uso, #Combustible, #Pago {
+
+.input__form, .input__form1,  #Género, #Estado-civil, #Uso, #Combustible, #Pago {
 
    border-radius: 8px;
    border: solid 1px grey;
