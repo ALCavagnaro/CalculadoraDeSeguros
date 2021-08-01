@@ -254,10 +254,10 @@ ul li:hover ul {
 
 .títuloSecundario {
   text-align: center;
-  margin: 3rem auto;
+  margin: 7% auto;
   font-family: FuturaStd-Bold, Arial, Helvetica, sans-serif;
   font-weight: 300;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   text-transform: uppercase;
 }
 
@@ -660,8 +660,7 @@ footer .p__footer {
   font-size: 1rem;
   text-transform: uppercase;
   color: white;
-  /*margin-top:5%;
-    margin-bottom: 1.8%;*/
+  margin-top: 5%;
 }
 
 footer .img__footer {
@@ -703,7 +702,7 @@ footer .img__footer .img__footer--img {
   font-weight: 300;
   font-size: 1rem;
   color: #cabfbf;
-  margin-top: 5%;
+  /* margin-top:5%;*/
   margin-bottom: 1.8%;
 }
 
@@ -714,5 +713,6 @@ footer .img__footer .img__footer--img {
   margin: auto;
   margin-bottom: 5rem;
   font-size: 1rem;
+  text-align: center;
 }
 /*# sourceMappingURL=style.css.map */

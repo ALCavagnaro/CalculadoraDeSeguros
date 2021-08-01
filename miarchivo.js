@@ -10,7 +10,7 @@ function main () {
     crearFormularioDatosPersonales();
     crearFormularioDatosVehiculo();
     botonCotizar();
-    datosFooter();
+
     
 }
 
@@ -309,21 +309,21 @@ function crearFormularioDatosVehiculo () {
 
     for (const opcionesUsos of opcionUso) {
 
-        $('#Uso').append(`<option>${opcionesUsos}</option>`)
+        $('#Uso').append(`<option class = "input__form">${opcionesUsos}</option>`)
     }
               
     let opcionCombustible = ["Por favor, elija una opción","Nafta","Gasoil","GNC"]
 
     for (const opcionesCombustibles of opcionCombustible) {
         
-        $('#Combustible').append(`<option>${opcionesCombustibles}</option>`)
+        $('#Combustible').append(`<option class = "input__form">${opcionesCombustibles}</option>`)
     }
 
     let opcionPago = ["Por favor, elija una opción","Transferencia bancaria","Tarjeta de débito/crédito","Efectivo"]
 
     for (const opcionesPagos of opcionPago) {
 
-        $('#Pago').append(`<option>${opcionesPagos}</option>`)
+        $('#Pago').append(`<option class = "input__form">${opcionesPagos}</option>`)
     }
 
     $('#formulario2').append('<button id="botonCotizar" class="btn btn-light">Cotizar</button>')
@@ -456,11 +456,20 @@ function validarDatosPersonales () {
 
         else if (resultadoFecha < 18) {
 
-            swal("Debes ser mayor de 18");
+            Swal.fire({
+                icon: 'error',
+                title: '¡Ups!',
+                text: 'Tenés que ser mayor de 18',
+              })
         }
 
         else (
-            swal ("Por favor, completá los campos obligatorios correctamente")
+            Swal.fire({
+                title: 'Completar los datos obligatorios correctamente',
+                showClass: {
+                  popup: 'animate__animated animate__fadeInDown'
+                },
+              })
         )
 
 };
@@ -519,17 +528,18 @@ function validarFormulario2(evento) {
     evento.preventDefault ();
     console.log("Prevent Default formulario2");
     datosAuto = [];
-            
-        let datos = document.getElementsByClassName("input__form");
-             
-        for (dato of datos) {                        //iteración para separar el valor de cada dato ingresado
-                 datosAuto.push(dato.value);
-                 console.log(dato.value);
-        }
 
-        const guardarDatosAuto = JSON.stringify(datosAuto);
-        localStorage.setItem ("Datos auto", guardarDatosAuto);
- }
+    let datos;
+    datos = document.getElementsByClassName("input__form");
+
+    for (dato of datos) {                        //iteración para separar el valor de cada dato ingresado
+             datosAuto.push(dato.value);
+             console.log(dato.value);
+    }
+
+    const guardarDatosAuto = JSON.stringify(datosAuto);
+    localStorage.setItem ("Datos auto", guardarDatosAuto);
+}
 
 
 function botonCotizar () {
@@ -587,10 +597,6 @@ function botonCotizar () {
    else if (añoAuto >= 2020) {
 
        subtotal = subtotal * autosGrupo5;
-   }
-
-   else {
-      swal("Ingresar año válido");
    }
 
 
@@ -663,65 +669,83 @@ medioDePago = document.getElementById("Pago").value;
             (validarCombustibleAuto != false) &&
             (validarPago != false)&&
             (añoAuto >= 2000) &&
-            (añoAuto < 2021)&&
+            (añoAuto <= 2021)&&
             (añoAuto != "")&&
             (marcaAuto != "")&&
             (modeloAuto != "")&&
             (uso != "Por favor, elija una opción")&&
-            (combustibleAuto != "Por favor, elija una opción")&&
-            (pago != "Por favor, elija una opción")
+            (combustibleAuto != "Por favor, elija una opción")
 
         ) 
 
-        { console.log("prueba");
+        {
+            if (pago != "Por favor, elija una opción") { 
 
-        
-        $('body').append(`<div id="myModal" class="modal">
-                          <div class="modal-content">
-                                <span class="close">&times;</span>
-                                    <p>Gracias por tu consulta, ${nombreUsuario}. 
-                                    Contratando tu seguro hoy, las tres primeras cuotas tendrán un valor de <strong>$ ${descuentoCuota.toFixed(2)} </strong>.
-                                    Un vendedor se contactará con vos en breve</p>
-                                </div>
-                          </div>`)
+            
+            $('body').append(`<div id="myModal" class="modal">
+                              <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                        <p>Gracias por tu consulta, ${nombreUsuario}. 
+                                        Contratando tu seguro hoy, las tres primeras cuotas tendrán un valor de <strong>$ ${descuentoCuota.toFixed(2)} </strong>.
+                                        Un vendedor se contactará con vos en breve</p>
+                                    </div>
+                              </div>`)
 
-        let modal = document.getElementById("myModal");
+            let modal = document.getElementById("myModal");
 
-        let span = document.getElementsByClassName("close")[0];
+            let span = document.getElementsByClassName("close")[0];
 
-        modal.style.display = "block";
+            modal.style.display = "block";
 
-        span.onclick = function() {
-            modal.style.display = "none";
-          }
-          
-          // When the user clicks anywhere outside of the modal, close it
-          window.onclick = function(event) {
-                if (event.target == modal) {
+            span.onclick = function() {
                 modal.style.display = "none";
-                }
+              }
+              
+              // When the user clicks anywhere outside of the modal, close it
+              window.onclick = function(event) {
+                    if (event.target == modal) {
+                    modal.style.display = "none";
+                    }
 
-        
-           }
+            
+               }
+            } else (
+                 Swal.fire({
+                     title: 'Completar los datos obligatorios correctamente',
+                     showClass: {
+                       popup: 'animate__animated animate__fadeInDown'
+                     },
+                   })
+             )
         }
 
     else (
-        swal ("Por favor, completá los campos obligatorios correctamente")
+        Swal.fire({
+            title: 'Completar los datos obligatorios correctamente',
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+          })
     )              
             
   }
  
 }   
 
-function datosFooter () {
-    $('#emailFooter').change(() => {
 
-        console.log("hola"); 
-        const emailFooter = document.getElementById("emailFooter");
-        const guardarDatosFooter = JSON.stringify(emailFooter);
-        localStorage.setItem("email footer", guardarDatosFooter);
-
-    }) 
-}
-
-$('#emailFooter').onchange = () => (console.log("Hola"));
+$(document).ready(function(){
+ $(`#emailFooter`).change(function(){
+    Swal.fire({
+        icon: 'success',
+        title: 'Hemos recibido su correo',
+        showConfirmButton: false,
+        timer: 1500
+      })
+     let emailFooter;
+     emailFooter = document.getElementById("emailFooter").value;
+     let guardarDatosFooter;
+     guardarDatosFooter = JSON.stringify(emailFooter);
+     localStorage.setItem("email footer", guardarDatosFooter);
+     $('#emailFooter').prop("disabled", true);
+ }); 
+});
