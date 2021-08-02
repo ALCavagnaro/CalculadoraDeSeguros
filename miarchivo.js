@@ -1,7 +1,6 @@
 
 main();
 
-
 function main () {
     animacion();
     crearTitulo1();
@@ -9,9 +8,7 @@ function main () {
     crearSeguro();
     crearFormularioDatosPersonales();
     crearFormularioDatosVehiculo();
-    botonCotizar();
-    crearFormularioContacto();
-    
+    botonCotizar();   
 }
 
 function animacion () {
@@ -739,28 +736,77 @@ $(document).ready(function(){
  }); 
 });
 
-function crearFormularioContacto () {
 
-    $(`body`).append('<div class = "contenedor__form" id = "contenedorFormulariosContacto"></div>');
+
+$('#contacto').on("click", modalContacto);
+
+function modalContacto(evento) {
+
+    $('#contenedorFormulariosContacto').empty();
+
+    evento.preventDefault();
+
+    console.log("prevent default modal");
+
+    $('body').append(`<div id="myModal2" class="modal2">
+                            <div class="modal-content">
+                                    <span class="close2">&times;</span>
+                                    '<div class = "contenedor__form" id = "contenedorFormulariosContacto"></div>'
+                                    </div>
+                            </div>`)
 
     $('#contenedorFormulariosContacto').append('<form method = "get" id = "formulario3"></form>');
 
-    $('#formulario3').append('<h2 class="títuloSecundario" id="">Completá el formulario para comunicarte con nosotros</h2>');
+    $('#formulario3').append('<h2 class="títuloSecundario" id="">¡Esperamos tu mensaje!</h2>');
 
     let datoPersonal = ["Nombre", "Apellido", "Email", "Mensaje"];
-    
-    for (const datosPersonales of datoPersonal) {
+
+    datoPersonal.forEach(datosPersonales => {
         $('#formulario3').append(`<div id = "contenedor-etiquetas-form3${datosPersonales}"><label class = "label__form1 label-required" id="label${datosPersonales}">${datosPersonales}</label>
-                                  <input class = "input__form" id = "contacto${datosPersonales}" required></input></div>`);
+                                <input class = "input__form" id = "contacto${datosPersonales}" required></input></div>`);
 
+    });
+
+
+    let emailUsuario = document.getElementById("contactoEmail");
+    emailUsuario.setAttribute("type","email");
+
+    $('#contactoMensaje').attr({
+        type: 'text',
+        maxlength: '300',
+        placeholder: 'Max. 300 palabras',
+      });
+
+    $('#formulario3').append(`<button id="botonEnviar" class="btn btn-light">Enviar</button>`);
+
+    let modal2 = document.getElementById("myModal2");
+
+    let span2 = document.getElementsByClassName("close2")[0];
+
+    modal2.style.display = "block";
+
+    span2.onclick = function() {
+        modal2.style.display = "none";
     }
+    
+    window.onclick = function(event) {
+            if (event.target == modal2) {
+            modal2.style.display = "none";
+            }
+        }
 
+    formulario3.addEventListener("submit", validarFormulario3);
 
-let emailUsuario = document.getElementById("contactoEmail");
-emailUsuario.setAttribute("type","email");
-
-
-$('#formulario3').append(`<button id="botonEnviar" class="btn btn-light">Enviar</button>`);
-
-
+    function validarFormulario3(evento) {
+        evento.preventDefault ();
+        console.log("Prevent Default formulario3");
+        Swal.fire('Muchas gracias por tu mensaje'); 
+    }
+            
 }
+    
+
+
+
+
+
