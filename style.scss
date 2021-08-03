@@ -1,9 +1,15 @@
+* {
+   margin:0;
+   padding:0;
+
+}
+
 body {
     background-color: rgb(167, 136, 172);
 }
 
 header {
-width: 99.9%;
+width: 100%;
 height:30rem;
 }
 
@@ -24,7 +30,7 @@ height:30rem;
 background-image:url("img/chico.jpg");
 background-repeat: no-repeat; /* Do not repeat the image */
 background-size: cover; /* Resize the background image to cover the entire container */
-width: 99.9%;
+width: 100%;
 height:30rem;
 margin-bottom:0.2%;
 display: flex;
@@ -225,9 +231,9 @@ select {
  .contenedor__form {
     margin:1%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-evenly;
-    width:99.5%
+    width:100%
  }
 
  @keyframes FadeInDown {
@@ -348,6 +354,12 @@ select {
 
    content: "🗸";
 
+}
+
+.form-check{
+
+   font-size: 1.5rem;
+   font-weight: 600;
 }
 
 
@@ -506,4 +518,96 @@ footer {
    margin-bottom: 5rem;
    font-size: 1rem;
    text-align: center;
+}
+
+.contenedor__textoFooter{
+   display: flex;
+   flex-direction: column;
+   align-content: center;
+}
+
+.textoFooter {
+
+   font-weight: 600;
+    font-size: 18px;
+    text-align: center;
+}
+
+/*celular*/
+@media only screen and (max-width: 400px) {
+
+   .título1 {
+      font-size: 1.7rem;
+   }
+
+   .contenedor__seguros, .contenedor__seguros__checkbox{
+    
+      flex-direction: column;
+   }
+
+   .subcontenedor__seguros, #formulario1, #formulario2, #formulario3 {
+      
+      width: 20rem;
+      margin: 5% auto;
+      opacity: 1;
+      background-color: #fefefe;
+       
+   }
+
+   .nav__li {
+      width: 100%;
+   }
+
+   .nav__li__a {
+      margin: 0% 0% 0% 55%;
+   }
+
+   .form-check{
+      text-align: left;
+      margin: 5% 15%;
+      font-size: 1.5rem;
+   }
+
+   .contenedor__form {
+      flex-direction: column;
+   }
+} 
+
+/*tablet*/
+@media only screen and (min-width: 401px) and (max-width: 960px) {
+   
+   .título1 {
+      font-size: 1.7rem;
+   }
+
+   .contenedor__seguros, .contenedor__seguros__checkbox{
+    
+      flex-direction: column;
+   }
+
+   .subcontenedor__seguros, #formulario1, #formulario2, #formulario3 {
+      
+      width: 20rem;
+      margin: 5% auto;
+      opacity: 1;
+       
+   }
+
+   .nav__li {
+      width: 100%;
+   }
+
+   .nav__li__a {
+      margin: 0% 0% 0% 55%;
+   }
+
+   .form-check{
+      text-align: left;
+      margin: 5% 15%;
+      font-size: 1.5rem;
+   }
+
+   .contenedor__form {
+      flex-direction: column;
+   }
 }
