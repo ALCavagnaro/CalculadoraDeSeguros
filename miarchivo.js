@@ -208,9 +208,11 @@ function crearFormularioDatosPersonales () {
                       })             
             
                     }
+
+                    $('#Localidad').empty();
                 
                     for (element of localidadesArray) {
-            
+                    
                       $('#Localidad').append(`<option>${element}</option>`);
             
                     }
